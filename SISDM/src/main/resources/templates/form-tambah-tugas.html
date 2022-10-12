@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>SISDM</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('tambahTugas')"></nav>
+<div class="container">
+  <div class="card m-4 p-4">
+    <div class="card-body">
+      <div class="justify-content-center">
+        <h2>Tambah Tugas</h2>
+        <br>
+        <form th:action="@{/tambah-tugas}" th:object="${tugas}" method="POST">
+          <div class="row">
+            <div class="col">
+              <h4>Nama Tugas</h4>
+              <input class="form-control" type="text" name="nama" th:field="*{nama}"
+                     required="true" placeholder="Nama Tugas"/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <h4>Deskripsi</h4>
+                <textarea class="form-control" id="exampleFormControlTextarea1" name="deskripsi" th:field="*{deskripsi}"
+                          required="true" placeholder="Deskripsi Tugas"/>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <h4>Story Point</h4>
+            </div>
+            <div class="col">
+              <h4>Status</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <input required class="form-control" type="number" th:field="*{storyPoint}" placeholder="Story Point"/>
+            </div>
+            <div class="col">
+              <select name="status" th:field="*{status}"
+                      class="form-control">
+                <option th:value="0">Dimulai</option>
+                <option th:value="1">Dikerjakan</option>
+                <option th:value="2">Selesai</option>
+              </select>
+            </div>
+          </div>
+          <br>
+
+          <button class="btn" style="background-color: #dcc6ff" type="submit" name="save">Submit</button>
+          <a class="btn" style="background-color: #ff94ad" href="/">Batal</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

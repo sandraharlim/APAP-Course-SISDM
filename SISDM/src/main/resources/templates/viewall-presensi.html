@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SISDM</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('presensi')"></nav>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h1>Daftar Presensi</h1>
+                <br>
+                <div class="card">
+                    <div class="card-header" style="background-color: #d2daff">
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="font-weight-bold">Data Presensi</h4>
+                            </div>
+                            <div class="col">
+                                <div align="right">
+                                    <a class="btn font-weight-bold" style="background-color: #a098ff"
+                                       th:href="@{/presensi/tambah}">+ Tambah Presensi</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead style="background-color: #e7e6ff">
+                            <tr class="text-center">
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Tanggal</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="presensi, iterationStatus: ${listPresensi}"
+                                th:style="${iterationStatus.even} ? 'font-weight:bold;'"
+                                class="text-center">
+                                <td th:text="${iterationStatus.count}"></td>
+                                <td th:text="${presensi.karyawan.namaDepan} + ' ' + ${presensi.karyawan.namaBelakang}"></td>
+                                <td th:text="${presensi.tanggal}"></td>
+                                <td class="text-success" th:if="${presensi.status} == 1">TEPAT WAKTU</td>
+                                <td class="text-danger" th:unless="${presensi.status} == 1">TERLAMBAT</td>
+                                <td>
+                                    <div>
+                                        <a class="btn" style="background-color: #b7a2ff"
+                                           th:href="@{/presensi/} + ${presensi.idPresensi}">Detail</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="fragments/fragment :: footer"></footer>
+</body>
+</html>

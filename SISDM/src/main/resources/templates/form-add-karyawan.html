@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SISDM</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('karyawan')"></nav>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Tambah Karyawan</h2>
+                <br>
+                <form th:action="@{/karyawan/tambah}" th:object="${karyawan}" method="POST">
+                    <h4>Nama Karyawan</h4>
+                    <div class="row">
+                        <div class="col">
+                            <input class="form-control" type="text" name="namaDepan" th:field="*{namaDepan}"
+                                   required="true" placeholder="Nama Depan"/>
+                        </div>
+                        <div class="col">
+                            <input class="form-control" type="text" name="namaBelakang" th:field="*{namaBelakang}"
+                                   required="true" placeholder="Nama Belakang"/>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="row">
+                        <div class="col">
+                            <h4>Email</h4>
+                        </div>
+                        <div class="col">
+                            <h4>Tanggal Lahir</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input class="form-control" type="text" name="email" th:field="*{email}"
+                                   required="true" placeholder="Email"/>
+                        </div>
+                        <div class="col">
+                            <input class="form-control" type="date" name="tanggalLahir" th:field="*{tanggalLahir}"
+                                   required="true"/>
+                        </div>
+                    </div>
+                    <br><br>
+                    <h4>Jenis Kelamin</h4>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="jenisKelamin" th:value="1"
+                               th:field="*{jenisKelamin}">
+                        <label class="form-check-label">
+                            Laki-laki
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="jenisKelamin" th:value="2"
+                               th:field="*{jenisKelamin}" checked>
+                        <label class="form-check-label">
+                            Perempuan
+                        </label>
+                    </div>
+                    <br><br>
+                    <table class="table">
+                        <thead>
+                        <th>Daftar Sertifikasi</th>
+                        <th>
+                            <button class="btn font-weight-bold" style="background-color: #d2daff" type="submit"
+                                    name="addRowSertifikasi">Tambah Sertifikasi
+                            </button>
+                        </th>
+                        </thead>
+                        <tbody>
+                        <tr th:each="sertifikasi, iterationStatus : *{listSertifikasi}">
+                            <td>
+                                <select th:field="*{listSertifikasi[__${iterationStatus.index}__].sertifikasi.idSertifikasi}"
+                                        class="form-control">
+                                    <div th:each="sertifikasiEx, iterationStatus2 : ${listSertifikasiExisting}">
+                                        <option th:value="${sertifikasiEx.idSertifikasi}"
+                                                th:text="${sertifikasiEx.nama}"></option>
+                                    </div>
+                                </select>
+                            </td>
+                            <td>
+                                <input class="form-check-input" type="date" name="tanggalPengambilan"
+                                       th:field="*{listSertifikasi[__${iterationStatus.index}__].tanggalPengambilan}">
+                            </td>
+                            <td>
+                                <button th:value="${iterationStatus.index}" class="btn" style="background-color: #ffb9bc"
+                                        name="deleteRowSertifikasi">Hapus</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <button class="btn font-weight-bold" style="background-color: #dcc6ff" type="submit" name="save">Submit</button>
+                    <a class="btn" style="background-color: #ff94ad" href="/karyawan">Batal</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

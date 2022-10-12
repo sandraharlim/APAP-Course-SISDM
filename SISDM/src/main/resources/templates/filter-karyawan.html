@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>SISDM</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('filter')"></nav>
+<div class="container">
+  <div class="card m-4 p-4">
+    <div class="card-body">
+      <div class="justify-content-center">
+        <h2 class="text-center">Filter Karyawan</h2>
+        <h3 class="text-center" style="color: #ff98df;">Berdasarkan Sertifikat</h3>
+        <br>
+        <form th:action="@{/filter-sertifikasi}" method="POST">
+          <h4>Pilih Sertifikasi</h4>
+          <div class="row">
+            <select th:name="idSertifikasi" class="form-control">
+              <div th:each="sertifikasiEx, iterationStatus2 : ${listSertifikasiExisting}">
+                <option hidden>Nama Sertifikasi</option>
+                <option th:value="${sertifikasiEx.idSertifikasi}"
+                        th:text="${sertifikasiEx.nama}"></option>
+              </div>
+            </select>
+          </div>
+          <br>
+          <div class="text-center">
+            <button class="btn text-center" style="background-color: #a2d9ff"
+                    type="submit" name="save">Cari</button>
+          </div>
+          <br><br>
+          <div class="card">
+            <div class="card-header" style="background-color: #d2daff">
+              <h4>Data Karyawan</h4>
+            </div>
+            <div class="card-body">
+              <table class="table">
+                <thead style="background-color: #e7e6ff">
+                <tr class="text-center">
+                  <th>No</th>
+                  <th>Nama</th>
+                  <th>Email</th>
+                  <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="karyawan, iterationStatus: ${listKaryawan}"
+                    th:style="${iterationStatus.even} ? 'font-weight:bold;'"
+                    class="text-center"
+                >
+                  <td th:text="${iterationStatus.count}"></td>
+                  <td th:text="${karyawan.namaDepan} + ' ' + ${karyawan.namaBelakang}"></td>
+                  <td th:text="${karyawan.email}"></td>
+                  <td>
+                    <div>
+                      <a class="btn" style="background-color: #b7a2ff" th:href="@{/karyawan/} + ${karyawan.idKaryawan}">Detail</a>
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

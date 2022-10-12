@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SISDM</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('karyawan')"></nav>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Detail Karyawan</h2>
+                <div class="btn-toolbar float-left" role="toolbar" aria-label="Toolbar with previous button">
+                    <a class="btn" style="background-color: #e7e6ff" href="/karyawan">Back</a>
+                </div>
+                <div class="btn-toolbar float-right" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-group mr-2" role="group" aria-label="First Group">
+                        <a th:href="@{/karyawan/} + ${karyawan.idKaryawan} + @{/ubah}"
+                           class="btn float-sm-right" style="background-color: #c8fff8">Edit</a>
+                    </div>
+                    <div class="btn-group" role="group" aria-label="Third Group">
+                        <a th:href="@{/karyawan/} + ${karyawan.idKaryawan} + @{/hapus}"
+                           class="btn float-sm-right" style="background-color: #ffb9bc">Delete</a>
+                    </div>
+                </div>
+                <br><br>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <h3>Nama</h3>
+                            </div>
+                            <div class="col">
+                                <h3>Jenis Kelamin</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h5 th:text="${karyawan.namaDepan} + ' ' + ${karyawan.namaBelakang}"></h5>
+                            </div>
+                            <div class="col">
+                                <h5 th:if="${karyawan.jenisKelamin} == 1">Laki-laki</h5>
+                                <h5 th:unless="${karyawan.jenisKelamin} == 1">Perempuan</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h3>Tanggal Lahir</h3>
+                            </div>
+                            <div class="col">
+                                <h3>Email</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h5 th:text="${#temporals.format(karyawan.tanggalLahir,'d MMMM yyyy')}"></h5>
+                            </div>
+                            <div class="col">
+                                <h5 th:text="${karyawan.email}"></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="*{listSertifikasi.size() != 0}">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Sertifikasi</th>
+                                    <th>No Sertifikasi</th>
+                                    <th>Tanggal Pengambilan</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="sertifikasi, iterationStatus: ${listSertifikasi}"
+                                    th:style="${iterationStatus.even} ? 'font-weight:bold;'">
+                                    <td th:text="${iterationStatus.count}"></td>
+                                    <td th:text="${sertifikasi.sertifikasi.nama}"></td>
+                                    <td th:text="${sertifikasi.noSertifikasi}"></td>
+                                    <td th:text="${#temporals.format(sertifikasi.tanggalPengambilan,'d MMMM yyyy')}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div th:unless="*{listSertifikasi.size() != 0}">
+                            <h3>Belum memiliki sertifikasi</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="fragments/fragment :: footer"></footer>
+</body>
+</html>

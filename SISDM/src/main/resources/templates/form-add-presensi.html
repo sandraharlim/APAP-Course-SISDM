@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SISDM</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('presensi')"></nav>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Tambah Presensi</h2>
+                <br>
+                <form th:action="@{/presensi/tambah}" th:object="${presensi}" method="POST">
+                    <div class="row">
+                        <div class="col">
+                            <h4>Nama Karyawan</h4>
+                            <select th:field="*{karyawan.idKaryawan}"
+                                    class="form-control">
+                                <div th:each="karyawanEx, iterationStatus2 : ${listKaryawanExisting}">
+                                    <option th:value="${karyawanEx.idKaryawan}"
+                                            th:text="${karyawanEx.namaDepan} + ' ' + ${karyawanEx.namaBelakang}"></option>
+                                </div>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h4>Tanggal</h4>
+                            <input class="form-control" type="date" name="tanggal" th:field="*{tanggal}"
+                                   required="true"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h4>Waktu Masuk</h4>
+                        </div>
+                        <div class="col">
+                            <h4>Waktu Keluar</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input class="form-control" type="time" name="waktuMasuk" th:field="*{waktuMasuk}"
+                                   required="true"/>
+                        </div>
+                        <div class="col">
+                            <input class="form-control" type="time" name="waktuKeluar" th:field="*{waktuKeluar}"
+                                   required="true"/>
+                        </div>
+                    </div>
+                    <br><br>
+                    <table class="table">
+                        <thead>
+                        <th>Daftar Tugas</th>
+                        <th>
+                            <button class="btn" style="background-color: #d2daff" type="submit" name="addRowTugas">Tambah Tugas
+                            </button>
+                        </th>
+                        </thead>
+                        <tbody>
+                        <tr th:each="tugas, iterationStatus : *{listTugas}">
+                            <td>
+                                <select th:field="*{listTugas[__${iterationStatus.index}__].idTugas}"
+                                        class="form-control">
+                                    <div th:each="tugasEx, iterationStatus2 : ${listTugasExisting}">
+                                        <option th:value="${tugasEx.idTugas}"
+                                                th:text="${tugasEx.nama}"></option>
+                                    </div>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="status" th:field="*{listTugas[__${iterationStatus.index}__].status}"
+                                        class="form-control">
+                                    <option th:value="0">Dimulai</option>
+                                    <option th:value="1">Dikerjakan</option>
+                                    <option th:value="2">Selesai</option>
+                                </select>
+                            </td>
+                            </td>
+                            <td>
+                                <button th:value="${iterationStatus.index}" class="btn" style="background-color: #ffb9bc"
+                                        name="deleteRowTugas">Hapus
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <button class="btn" style="background-color: #dcc6ff" type="submit" name="save">Submit</button>
+                    <a class="btn" style="background-color: #ff94ad" href="/presensi">Batal</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

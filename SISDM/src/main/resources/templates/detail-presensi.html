@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SISDM</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('presensi')"></nav>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Detail Presensi</h2>
+                <div class="btn-toolbar float-left" role="toolbar" aria-label="Toolbar with previous button">
+                    <a class="btn" style="background-color: #e7e6ff" href="/presensi">Back</a>
+                </div>
+                <div class="btn-toolbar float-right" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-group mr-2" role="group" aria-label="First Group">
+                        <a th:href="@{/presensi/} + ${presensi.idPresensi} + @{/ubah}"
+                           class="btn float-sm-right" style="background-color: #c8fff8">Edit</a>
+                    </div>
+                </div>
+                <br><br>
+                <div class="card" style="background-color: transparent; ">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <h4>Nama Karyawan</h4>
+                            </div>
+                            <div class="col">
+                                <h5 th:text="${presensi.karyawan.namaDepan} + ' ' + ${presensi.karyawan.namaBelakang}"></h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h4>Tanggal Presensi</h4>
+                            </div>
+                            <div class="col">
+                                <h5 th:text="${#temporals.format(presensi.tanggal,'d MMMM yyyy')}"></h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h4>Waktu Masuk</h4>
+                            </div>
+                            <div class="col">
+                                <h5 th:text="${#temporals.format(presensi.waktuMasuk, 'HH:mm a')}"></h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h4>Waktu Keluar</h4>
+                            </div>
+                            <div class="col">
+                                <h5 th:text="${#temporals.format(presensi.waktuKeluar, 'HH:mm a')}"></h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h4>Status</h4>
+                            </div>
+                            <div class="col">
+                                <h5 class="text-success" th:if="${presensi.status} == 1">TEPAT WAKTU</h5>
+                                <h5 class="text-danger" th:unless="${presensi.status} == 1">TERLAMBAT</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="*{listTugas.size() != 0}">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nama</th>
+                                    <th>Deskripsi</th>
+                                    <th>Story Point</th>
+                                    <th>Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="tugas, iterationStatus: ${listTugas}"
+                                    th:style="${iterationStatus.even} ? 'font-weight:bold;'">
+                                    <td th:text="${tugas.idTugas}"></td>
+                                    <td th:text="${tugas.nama}"></td>
+                                    <td th:text="${tugas.deskripsi}"></td>
+                                    <td th:text="${tugas.storyPoint}"></td>
+                                    <td th:if="${tugas.status} == 0">Dimulai</td>
+                                    <td th:if="${tugas.status} == 1">Dikerjakan</td>
+                                    <td th:if="${tugas.status} == 2">Selesai</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div th:unless="*{listTugas.size() != 0}">
+                            <h3>Belum memiliki tugas</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="fragments/fragment :: footer"></footer>
+</body>
+</html>

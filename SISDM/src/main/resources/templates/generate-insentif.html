@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SISDM</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('karyawan')"></nav>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Insentif Karyawan</h2>
+                <div class="btn-toolbar float-left" role="toolbar" aria-label="Toolbar with previous button">
+                    <a class="btn" style="background-color: #e7e6ff" href="/karyawan">Back</a>
+                </div>
+                <br><br>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <h3>Nama</h3>
+                            </div>
+                            <div class="col">
+                                <h3>Email</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h5 th:text="${karyawan.namaDepan} + ' ' + ${karyawan.namaBelakang}"></h5>
+                            </div>
+                            <div class="col">
+                                <h5 th:text="${karyawan.email}"></h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h3>Total Insentif</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h4 th:text="'Rp ' + ${karyawan.insentif} + ',-'"></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col">
+                                        <h4>Riwayat Insentif</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Jenis</th>
+                                        <th>Sumber</th>
+                                        <th>Jumlah Insentif</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Penambahan</td>
+                                        <td>Tugas</td>
+                                        <td th:text="'Rp ' + ${sumberTugas} + ',-'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Pengurangan</td>
+                                        <td>Presensi</td>
+                                        <td th:text="'-Rp ' + ${sumberPresensi} + ',-'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Penambahan</td>
+                                        <td>Sertifikasi</td>
+                                        <td th:text="'Rp ' + ${sumberSertifikasi} + ',-'"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="fragments/fragment :: footer"></footer>
+</body>
+</html>
